@@ -1,0 +1,19 @@
+.character-card { 
+        border: 1px solid #2945e2; 
+        padding: 5px; 
+        margin: 5px; 
+        flex: 1; /* Hace que cada columna ocupe espacio igual */
+        background-color: #84e3f0;
+        height: 100%;
+        width: 200px;
+    }
+
+.character-card img {max-width: 100px; border: 1px solid #2945e2}
+  
+.contenedor-columnas{
+        display: flex; /* Convierte a un contenedor flex */
+        flex-wrap: wrap; /* Permite que los elementos salten de fila */
+        justify-content: space-between; /* Separa las columnas */
+        gap: 4px; /* Espacio entre columnas */
+    }
+
