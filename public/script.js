@@ -1,39 +1,52 @@
-async function buscarIcono() {
-    const inputElement = document.getElementById('thingInput');
-    const container = document.getElementById('iconContainer');
-    const thingName = inputElement.value.trim();
-
-    if (!thingName) {
-        container.innerHTML = '<p>Por favor, introduce un nombre.</p>';
-        return;
-    }
-
+/*
+// Función para consumir nuestra API de Node.js
+async function fetchCharacters() {
     try {
-        const response = await fetch('/get-icon', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ name: thingName })
-        });
-
+        // Petición a nuestro endpoint local /api/characters
+        const response = await fetch('/api/characters');
+        if (!response.ok) {
+            throw new Error('Error en la respuesta de la API local');
+        }
         const data = await response.json();
 
-        container.innerHTML = ''; // Limpiar el contenedor anterior
-
-        if (data.success) {
-            // Mostrar la imagen del icono
-            const img = document.createElement('img');
-            img.src = data.iconUrl;
-            img.alt = thingName;
-            img.classList.add('displayed-icon'); // Para aplicar estilos CSS
-            container.appendChild(img);
-        } else {
-            // Mostrar mensaje de error/no encontrado
-            container.innerHTML = `<p style="color: red;">${data.message}</p>`;
-        }
+        displayCharacters(data.results);
     } catch (error) {
-        console.error('Error al buscar el icono:', error);
-        container.innerHTML = '<p style="color: red;">Ocurrió un error en el servidor.</p>';
+        console.error('Error al obtener los personajes:', error);
     }
 }
+*/
+
+async function fetchCharacters() {
+    try {
+        // Petición a nuestro endpoint local /api/characters
+        const response = await fetch('exec');
+        if (!response.ok) {
+            throw new Error('Error en la respuesta de la API local');
+        }
+        const data = await response.json();
+
+        displayCharacters(data.results);
+    } catch (error) {
+        console.error('Error al obtener los personajes:', error);
+    }
+}
+
+// Función para mostrar los personajes en el HTML
+function displayCharacters(characters) {
+    const container = document.getElementById('characters-container');
+    container.innerHTML = ''; // Limpiar contenedor
+    characters.forEach(character => {
+        const card = document.createElement('div');
+        card.classList.add('character-card');
+        card.innerHTML = `
+            <h2>${character.name}</h2>
+            <img src="${character.image}" alt="${character.name}">
+            <p>Especie: ${character.species}</p>
+            <p>Estado: ${character.status}</p>
+        `;
+        container.appendChild(card);
+    });
+}
+
+// Llamar a la función al cargar la página
+fetchCharacters();
